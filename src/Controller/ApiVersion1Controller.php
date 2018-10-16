@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use GemeenteAmsterdam\ThumbnailService\Model\ThumbnailRequest;
 
 /**
- * @Route("/1")
+ * @Route("/thumbnail/1")
  */
 class ApiVersion1Controller extends Controller
 {

@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class HelpController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/thumbnail")
      */
     public function indexAction()
     {
