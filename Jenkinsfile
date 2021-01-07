@@ -1,3 +1,7 @@
+String CONTAINERDIR = "."
+String CONTAINERNAME = "fixxx/thumbnail:${env.BUILD_NUMBER}"
+String DOCKERFILE = "Dockerfile"
+
 def tryStep(String message, Closure block, Closure tearDown = null) {
     try {
         block()
@@ -20,13 +24,12 @@ node {
         checkout scm
     }
 
-
-
     stage("Build image") {
         tryStep "build", {
-            def image = docker.build("build.app.amsterdam.nl:5000/fixxx/thumbnail:${env.BUILD_NUMBER}")
-            image.push()
-
+            docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
+                image = docker.build("${CONTAINERNAME}","-f ${DOCKERFILE} ${CONTAINERDIR}")
+                image.push()
+            }
         }
     }
 }
@@ -40,10 +43,10 @@ if (BRANCH == "master") {
     node {
         stage('Push acceptance image') {
             tryStep "image tagging", {
-                def image = docker.image("build.app.amsterdam.nl:5000/fixxx/thumbnail:${env.BUILD_NUMBER}")
-                image.pull()
-                image.push("acceptance")
-                image.push("production")
+                docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
+                    image.push("acceptance")
+                    image.push("production")
+                }
             }
         }
     }
@@ -69,10 +72,10 @@ if (BRANCH == "master") {
     node {
         stage('Push production image') {
             tryStep "image tagging", {
-                def image = docker.image("build.app.amsterdam.nl:5000/fixxx/thumbnail:${env.BUILD_NUMBER}")
-                image.pull()
-                image.push("production")
-                image.push("latest")
+                docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
+                    image.push("production")
+                    image.push("latest")
+                }
             }
         }
     }
