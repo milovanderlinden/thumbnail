@@ -1,4 +1,4 @@
-FROM composer:1.5
+FROM composer:1.10
 FROM debian:buster
 
 EXPOSE 80
@@ -7,12 +7,13 @@ RUN apt-get -y update \
  && apt-get -y upgrade \
  && apt-get -y install nano curl bash \
  && apt-get -y install nginx \
+ && apt-get -y install unzip \
  && apt-get -y install git \
- && apt-get -y install php7.2 php7.2-fpm php7.2-curl php7.2-intl php7.2-json php7.2-mbstring php7.2-opcache php7.2-zip php7.2-xml \
+ && apt-get -y install php7.3 php7.3-fpm php7.3-curl php7.3-intl php7.3-json php7.3-mbstring php7.3-opcache php7.3-zip php7.3-xml \
  && apt-get -y install libreoffice \
  && apt-get -y install imagemagick 
 
-COPY --from=composer:1.5 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:1.10 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /
 RUN mkdir /srv/app

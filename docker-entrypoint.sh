@@ -23,8 +23,8 @@ fi
 
 cp docker/nginx/nginx.conf /etc/nginx/nginx.conf
 cp docker/nginx/vhost.conf /etc/nginx/conf.d/vhost.conf
-cp docker/php/extra-$APP_ENV.ini /etc/php/7.2/fpm/conf.d/99-extra.ini
-cp docker/php/fpm-pool.conf /etc/php/7.2/fpm/pool.d/www.conf
+cp docker/php/extra-$APP_ENV.ini /etc/php/7.3/fpm/conf.d/99-extra.ini
+cp docker/php/fpm-pool.conf /etc/php/7.3/fpm/pool.d/www.conf
 
 touch var/log/dev.log
 touch var/log/acceptance.log
@@ -37,4 +37,4 @@ tail -f var/log/acceptance.log &
 tail -f var/log/production.log &
 
 nginx
-php-fpm7.2 -F
+php-fpm7.3 -F
